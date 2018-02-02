@@ -1,0 +1,5 @@
+n // number of nodes
+m // number of participants
+w // how many participants should visit a node
+COSTMATRIC // first n nodes are nodes to be visited followed by m depots of participant
+//that's all
