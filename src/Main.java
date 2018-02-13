@@ -50,7 +50,7 @@ public class Main {
 		if(genTest==true)
 		{
 			
-			//GraphGenerater.gen(args);
+			//GraphGenerater.gen(args,numOfTestcases);
 		}
 		
 		
@@ -73,64 +73,7 @@ public class Main {
 				data[i].parseGeneralGraph(i+".txt");
 				gpMain[i] = new GPmain(data[i]);
 				//read graph file without coordinate, i.e. get the cost matrix of nodes
-				System.out.println("THE COST MATRIX");
-				for(int j=1 ; j<total+sales ; j++)
-				{
-					for(int k=1 ; k<total+sales ; k++)
-					{
-						System.out.print(" "+(int)data[i].costMatrix[j][k]);
-					}
-					System.out.println();
-				}
-				System.out.println("end");
-				
-				/* Dijkstra block
-			
-				DijkstraAlgorithmSet dijkstrasAlgorithm;
-				for(int j=1 ; j<sales ; j++)
-				{
-					dijkstrasAlgorithm = new DijkstraAlgorithmSet(total+sales-1);
-					dijkstrasAlgorithm.dijkstra_algorithm(data[i].costMatrix, total+j);
-					
-					System.out.println("length = "+dijkstrasAlgorithm.distances.length+" total ="+total);
-					for (int k = 1; k <= dijkstrasAlgorithm.distances.length - 1; k++) 
-		            {
-		                System.out.println((j+total)+" "+ " to " + k + " is "+ dijkstrasAlgorithm.distances[k]);
-		                data[i].costMatrix[j+total][k] = dijkstrasAlgorithm.distances[k];
-		            }
-				}
-				*/
-				System.out.println("THE COST MATRIX2");
-				for(int j=1 ; j<total+sales ; j++)
-				{
-					for(int k=1 ; k<total+sales ; k++)
-					{
-						System.out.print(" "+(int)data[i].costMatrix[j][k]);
-					}
-					System.out.println();
-				}
-				System.out.println("end");
-				/*
-				for(int j=sales ; j<total+sales ; j++)
-				{
-					dijkstrasAlgorithm = new DijkstraAlgorithmSet(total+sales-1);
-					dijkstrasAlgorithm.dijkstra_algorithm(data[i].costMatrix, j-sales+1);
-					
-					System.out.println("length = "+dijkstrasAlgorithm.distances.length+" total ="+total);
-					for (int k = 1; k <= dijkstrasAlgorithm.distances.length - 1; k++) 
-		            {
-		                //System.out.println((j-sales+1)+" "+ " to " + k + " is "+ dijkstrasAlgorithm.distances[k]);
-		                data[i].costMatrix[j-sales+1][k] = dijkstrasAlgorithm.distances[k];
-		            }
-				}
-				
-				for(int j=1 ; j<total+sales ; j++)
-				{
-					data[i].costMatrix[j][j] = 999;
-				}
-				*/
-				
-				
+
 				gpMain[i].gpNoCoordinate(i+".txt", uFactor, times);
 				
 				
