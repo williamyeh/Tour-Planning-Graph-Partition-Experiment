@@ -156,8 +156,6 @@ public class Main {
 		}
 		System.out.println("out of ex block");
 		// the parser block
-		// parse all kind of 
-		
 		
 		if(gpFlag)
 		{
