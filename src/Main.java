@@ -21,7 +21,6 @@ public class Main {
 	 * to compute 
 	 * args[0] ufactor number
 	 * args[1] times
-	 * args[2] testCaseNum
 	 * @throws IOException
 	 * @throws InterruptedException 
 	 * @throws WriteException 
@@ -31,6 +30,14 @@ public class Main {
 	public static void main(String[] args) throws IOException, InterruptedException, RowsExceededException, WriteException, BiffException {
 		
 		// TODO Auto-generated method stub
+		/* 
+		 *  "uFactor" better to be set to around 500 as WY remembered
+		 *  "times" is the variable used to amplify the difference between edge costs
+		 *  making it easier for the gp tool metis to make a better dicision.
+		 *  If times set to 2, an edge with cost 2 becomes 2*2, 3 becomes 3*3.
+		 *  Setting it to 2 or 3 is recommended and supported by the code
+		 */
+		
 		int uFactor = Integer.parseInt(args[0]);
 		int times = Integer.parseInt(args[1]);
 		int numOfTestcases = 1;
@@ -39,7 +46,6 @@ public class Main {
 		Data data[] = new Data[numOfTestcases+1];
 		GPmain gpMain[] = new GPmain[numOfTestcases+1];
 		boolean gpFlag = true;
-		boolean mipFlag = false;
 		boolean gurobiFlag = true;
 		boolean genTest = true;
 		int numOfParts=0;
@@ -65,9 +71,18 @@ public class Main {
 			int sales = scan[i].nextInt()+1;
 			numOfParts = sales - 1;
 			
+			
+			/*
+			 *  gp section
+			 *  using graph partition tool metis, the passed in graph will be partitioned into m 
+			 *  parts, each part contains a depot and a bunch of nodes.
+			 *  after partitioning, LKH shortest path tool will be used to find out the shortest
+			 *  path for each part, ie for each volunteer/human sensor
+			 *  
+			 */
+			
 			if(gpFlag == true)
 			{
-			// gp section
 				
 				data[i] = new Data(total , sales);
 				data[i].parseGeneralGraph(i+".txt");
@@ -76,8 +91,7 @@ public class Main {
 
 				gpMain[i].gpNoCoordinate(i+".txt", uFactor, times);
 				
-				
-				
+				// magic number to be fixed
 				for(int j=1 ; j<total+sales ; j++)
 				{
 					data[i].costMatrix[j][j] = 999;
@@ -96,25 +110,7 @@ public class Main {
 				}
 				System.out.println("end");
 			}
-			// neos cluster section
-			if(mipFlag == true)
-			{
-				System.out.println("start neos clustering");
-				data[i] = new Data(total , sales);
-				// parse graph
-				data[i].parseGeneralGraph(i+".txt");
-
-				String [] input = new String[3];
-				input[0] = i+"";
-				// send gams to neos
-				ExampleMain.neos(input,data[i]);
-				
-				// use gurobi to do clustering
-				
-				// run lkh for each clustering
-				data[i].NeosClusterLKHParticipants(i+"c",i);
-				System.out.println("gurobi local clustering done");
-			}
+			
 			if(gurobiFlag == true)
 			{
 				System.out.println("start gurobi clustering");
@@ -171,16 +167,6 @@ public class Main {
 			ParseResultOfNeosClusters.parse(numOfParts, "gb120", numOfTestcases,1);
 			System.out.println("end parse gurobi");
 		}
-		
-		
-		
-		
-		
-		
-		// read input graph and run GP
-		//gpMain.gpNoCoordinate(args[0], uFactor, times);
-		
-		//gpMain.data.GPMaster2("gpNodes.txt.part."+(gpMain.data.SALESMAN-1));
 		
 	}
 

@@ -19,7 +19,7 @@ public class GraphGenerater {
 		 */
 		
 		int nmwMinMax[] = new int[5];
-		int numberOfCases = 100;
+		int numberOfCases = 1;
 		int n,m,w,min,max;
 		n = 600;
 		m = 10;
