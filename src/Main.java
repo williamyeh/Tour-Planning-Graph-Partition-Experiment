@@ -110,7 +110,11 @@ public class Main {
 				}
 				System.out.println("end");
 			}
-			
+			/*
+			 * the gurobi bock
+			 * this block uses milp to partition the graph and uses LKH to find out the shortest
+			 * path for each part
+			 */
 			if(gurobiFlag == true)
 			{
 				System.out.println("start gurobi clustering");
